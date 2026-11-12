@@ -35,4 +35,5 @@ Base64 is encoding, not encryption. Anyone with the link can use its key, and th
 Cross-origin reads from the deployed GitHub Pages site were verified against the current MinIO endpoint. The MinIO CLI does not report a stored bucket CORS rule, but the live browser was able to load the deck and card metadata.
 
 Search uses card titles, descriptions, deck names, and available tags. The current card metadata also provides shiny, animation-level, and rarity filters.
+Animation levels 1 and 2 are labeled Cornelius and Mab; rarities 0 through 3 are labeled Silver, Blue, Purple, and Red.
 Click a card's title or its Wikipedia link to open its Wikipedia page in a new tab.

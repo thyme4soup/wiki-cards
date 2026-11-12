@@ -3,6 +3,8 @@ const PAGE_SIZE = 24;
 const DECKS_PREFIX = `${CONFIG.prefix}Decks/`;
 const ANIMATIONS_PREFIX = `${CONFIG.prefix}Animations/`;
 const CREDENTIALS_STORAGE_KEY = "wikiCardsCredentials";
+const ANIMATION_LABELS = ["", "Cornelius", "Mab"];
+const RARITY_LABELS = ["Silver", "Blue", "Purple", "Red"];
 
 const elements = {
   sourceStatus: document.querySelector("#sourceStatus"),
@@ -215,8 +217,12 @@ async function loadCards() {
       ? details.tags.filter((tag) => typeof tag === "string" && tag.trim()).map((tag) => tag.trim())
       : [];
     if (cardDetails.shiny) tags.push("Shiny");
-    if (cardDetails.animation > 0) tags.push(`Animation ${cardDetails.animation}`);
-    if (Number.isInteger(details.rarity)) tags.push(`Rarity ${details.rarity}`);
+    if (cardDetails.animation > 0) {
+      tags.push(ANIMATION_LABELS[cardDetails.animation] || `Animation ${cardDetails.animation}`);
+    }
+    if (Number.isInteger(details.rarity)) {
+      tags.push(RARITY_LABELS[details.rarity] || `Rarity ${details.rarity}`);
+    }
     const title = typeof details.title === "string" && details.title
       ? details.title.replace(/_/g, " ")
       : cardDetails.title.replace(/_/g, " ");
