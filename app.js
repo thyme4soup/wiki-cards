@@ -5,6 +5,10 @@ const ANIMATIONS_PREFIX = `${CONFIG.prefix}Animations/`;
 const CREDENTIALS_STORAGE_KEY = "wikiCardsCredentials";
 const ANIMATION_LABELS = ["", "Cornelius", "Mab"];
 const RARITY_LABELS = ["Silver", "Blue", "Purple", "Red"];
+const TAG_SORT_KEYS = new Map([
+  ...ANIMATION_LABELS.slice(1).map((label, index) => [label, `Animation ${index + 1}`]),
+  ...RARITY_LABELS.map((label, index) => [label, `Rarity ${index}`])
+]);
 
 const elements = {
   sourceStatus: document.querySelector("#sourceStatus"),
@@ -256,7 +260,8 @@ function renderFilters() {
   for (const deck of decks) elements.deckFilter.add(new Option(deck, deck));
   elements.deckFilter.disabled = decks.length === 0;
 
-  const tags = [...new Set(cards.flatMap((card) => card.tags))].sort((a, b) => a.localeCompare(b));
+  const tags = [...new Set(cards.flatMap((card) => card.tags))]
+    .sort((a, b) => (TAG_SORT_KEYS.get(a) || a).localeCompare(TAG_SORT_KEYS.get(b) || b));
   elements.tagFilters.replaceChildren();
   for (const tag of tags) {
     const button = document.createElement("button");
@@ -267,7 +272,9 @@ function renderFilters() {
     button.addEventListener("click", () => {
       selectedTag = selectedTag === tag ? "" : tag;
       visibleCount = PAGE_SIZE;
-      renderFilters();
+      for (const filter of elements.tagFilters.querySelectorAll("button")) {
+        filter.setAttribute("aria-pressed", String(filter.textContent === selectedTag));
+      }
       renderCards();
     });
     elements.tagFilters.append(button);

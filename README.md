@@ -36,4 +36,5 @@ Cross-origin reads from the deployed GitHub Pages site were verified against the
 
 Search uses card titles, descriptions, deck names, and available tags. The current card metadata also provides shiny, animation-level, and rarity filters.
 Animation levels 1 and 2 are labeled Cornelius and Mab; rarities 0 through 3 are labeled Silver, Blue, Purple, and Red.
+These renamed filters retain the original animation and rarity ordering, and selecting a tag keeps the current deck filter.
 Click a card's title or its Wikipedia link to open its Wikipedia page in a new tab.
