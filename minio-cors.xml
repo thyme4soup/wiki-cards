@@ -1,7 +1,0 @@
-<CORSConfiguration>
-  <CORSRule>
-    <AllowedOrigin>https://thyme4soup.github.io</AllowedOrigin>
-    <AllowedMethod>GET</AllowedMethod>
-    <MaxAgeSeconds>600</MaxAgeSeconds>
-  </CORSRule>
-</CORSConfiguration>

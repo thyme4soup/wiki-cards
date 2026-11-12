@@ -32,8 +32,6 @@ Base64 is encoding, not encryption. Anyone with the link can use its key, and th
 
 `config.js` points at the MinIO endpoint, bucket, and `wiki-cards/` prefix. The browser combines JSON files in `Decks/` and card metadata and animations in `Animations/`. It signs read requests in the browser and only signs animation URLs when cards approach the viewport.
 
-MinIO must allow CORS reads from the website's origin. Restrict `AllowedOrigins` to the deployed site and `AllowedMethods` to `GET` (and optionally `HEAD`); CORS is not an access-control policy, so keep the MinIO key read-only and scoped to the card prefix.
-
-`minio-cors.xml` contains the narrow CORS rule for this GitHub Pages site. Apply it with `mc cors set myminio/michaels-assets .\minio-cors.xml` if the MinIO server supports bucket CORS configuration.
+Cross-origin reads from the deployed GitHub Pages site were verified against the current MinIO endpoint. The MinIO CLI does not report a stored bucket CORS rule, but the live browser was able to load the deck and card metadata.
 
 Search uses card titles, descriptions, deck names, and available tags. The current card metadata also provides shiny, animation-level, and rarity filters.
