@@ -135,7 +135,9 @@ function wikiPageUrl(title) {
 
 async function readDecks() {
   const keys = (await listAllObjects(DECKS_PREFIX))
-    .filter((key) => key.startsWith(DECKS_PREFIX) && key.endsWith(".json"));
+    .filter((key) => key.startsWith(DECKS_PREFIX)
+      && key.endsWith(".json")
+      && key.slice(DECKS_PREFIX.length, -".json".length).toLocaleLowerCase() !== "script_kitty");
   const failures = [];
   const decks = await mapConcurrent(keys, 8, async (key) => {
     try {
