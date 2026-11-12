@@ -2,6 +2,7 @@ const CONFIG = window.WIKI_CARDS_CONFIG;
 const PAGE_SIZE = 24;
 const DECKS_PREFIX = `${CONFIG.prefix}Decks/`;
 const ANIMATIONS_PREFIX = `${CONFIG.prefix}Animations/`;
+const CREDENTIALS_STORAGE_KEY = "wikiCardsCredentials";
 
 const elements = {
   sourceStatus: document.querySelector("#sourceStatus"),
@@ -51,11 +52,17 @@ function clearCredentialFromAddressBar() {
 function readCredentials() {
   const encoded = new URLSearchParams(window.location.search).get("cred");
   clearCredentialFromAddressBar();
-  if (!encoded) return null;
-  if (encoded.length > 8192) throw new Error("The card access link is invalid.");
+  let savedCredentials;
+  try {
+    savedCredentials = encoded || sessionStorage.getItem(CREDENTIALS_STORAGE_KEY);
+  } catch {
+    throw new Error("The card access link could not be restored. Reopen the original share link.");
+  }
+  if (!savedCredentials) return null;
+  if (savedCredentials.length > 8192) throw new Error("The card access link is invalid.");
 
   try {
-    const base64 = encoded.replace(/-/g, "+").replace(/_/g, "/");
+    const base64 = savedCredentials.replace(/-/g, "+").replace(/_/g, "/");
     const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, "=");
     const bytes = Uint8Array.from(atob(padded), (character) => character.charCodeAt(0));
     const credentials = JSON.parse(new TextDecoder().decode(bytes));
@@ -63,6 +70,13 @@ function readCredentials() {
       || typeof credentials.accessKey !== "string" || !credentials.accessKey
       || typeof credentials.secretKey !== "string" || !credentials.secretKey) {
       throw new Error("The card access link is missing a key.");
+    }
+    if (encoded) {
+      try {
+        sessionStorage.setItem(CREDENTIALS_STORAGE_KEY, encoded);
+      } catch {
+        throw new Error("The card access link could not be saved for refresh.");
+      }
     }
     return {
       accessKey: credentials.accessKey,

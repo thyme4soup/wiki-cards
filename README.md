@@ -24,7 +24,7 @@ The share link has this shape:
 https://thyme4soup.github.io/wiki-cards/?cred=BASE64URL_ENCODED_JSON
 ```
 
-Run `.\create-share-link.ps1` to enter a read-only key and generate a link. The site removes the parameter from the address bar after reading it and keeps the key in memory only. If the site is deployed under a different GitHub Pages path, update the base URL in that script.
+Run `.\create-share-link.ps1` to enter a read-only key and generate a link. The site removes the parameter from the address bar after reading it and keeps the key in tab-scoped session storage, so refreshing the page in the same tab continues to work. Closing the tab clears the saved key; reopen the original share link to start a new session. If the site is deployed under a different GitHub Pages path, update the base URL in that script.
 
 Base64 is encoding, not encryption. Anyone with the link can use its key, and the URL may be recorded in browser history or hosting logs before the page removes it. Make a separate MinIO service account with read-only access to `michaels-assets/wiki-cards/` for sharing; do not use an administrator or general-purpose key. Rotate or revoke the shared key if the link is forwarded or exposed.
 
