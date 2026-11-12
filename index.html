@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f3f4ed">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="Browse and search your wiki cards.">
+    <title>Wiki Cards</title>
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./config.js" defer></script>
+    <script src="./s3.js" defer></script>
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="./" aria-label="Wiki Cards home">
+          Wiki cards
+        </a>
+        <div class="header-actions">
+          <span class="source-indicator">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span id="sourceStatus" role="status" aria-live="polite">Waiting for card access</span>
+          </span>
+        </div>
+      </header>
+
+      <main>
+        <section class="archive" aria-label="Card archive">
+          <div class="archive-heading">
+            <h1 id="pageTitle">Cards</h1>
+            <p class="result-count" id="resultCount" aria-live="polite"></p>
+          </div>
+
+          <div class="toolbar">
+            <label class="search-box" for="searchInput">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.2 4.2"></path></svg>
+              <input id="searchInput" type="search" placeholder="Search cards, descriptions, tags..." autocomplete="off">
+              <kbd>/</kbd>
+            </label>
+            <label class="select-wrap" for="deckFilter">
+              <span class="sr-only">Filter by deck</span>
+              <select id="deckFilter" disabled>
+                <option value="">All decks</option>
+              </select>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg>
+            </label>
+          </div>
+
+          <div class="tag-list" id="tagFilters" aria-label="Filter by tag"></div>
+          <div class="card-grid" id="cardGrid" aria-live="polite"></div>
+          <section class="empty-state" id="emptyState" hidden>
+            <h2 id="emptyTitle">No cards loaded.</h2>
+            <p id="emptyCopy">Open the link shared with you to browse the cards.</p>
+          </section>
+          <div class="load-more-wrap">
+            <button class="load-more" id="loadMore" type="button" hidden>Load more cards <span aria-hidden="true">+</span></button>
+          </div>
+        </section>
+      </main>
+
+    </div>
+
+  </body>
+</html>
