@@ -310,7 +310,12 @@ function createCardElement(card) {
   deck.textContent = card.deck;
   const title = document.createElement("h3");
   title.className = "card-title";
-  title.textContent = card.title;
+  const titleLink = document.createElement("a");
+  titleLink.href = card.pageUrl;
+  titleLink.target = "_blank";
+  titleLink.rel = "noopener noreferrer";
+  titleLink.textContent = card.title;
+  title.append(titleLink);
   body.append(deck, title);
 
   if (card.description) {
